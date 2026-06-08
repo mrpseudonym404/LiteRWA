@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>LiteRWA | RWA Marketplace on LitVM</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #020208; color: #fff; overflow-x: hidden; }
+        .orb-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255,100,80,0.2), transparent 45%), radial-gradient(circle at 85% 70%, rgba(255,180,60,0.18), transparent 50%); animation: bgPulse 8s infinite alternate; z-index: 0; }
+        @keyframes bgPulse { 0% { opacity: 0.6; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; position: relative; z-index: 10; }
+        .header-final { background: rgba(8,8,20,0.6); backdrop-filter: blur(20px); border-radius: 80px; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; border: 1px solid rgba(255,180,80,0.4); }
+        .logo h1 { font-size: 2rem; font-weight: 900; background: linear-gradient(135deg, #FFE6B0, #FFB347, #FF6F61); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .tagline { font-size: 0.7rem; color: #A8A3D0; }
+        .wallet-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .gas-meter { background: rgba(0,0,0,0.6); border-radius: 60px; padding: 6px 18px; border: 1px solid #FFB347; display: flex; align-items: center; gap: 10px; font-size: 0.75rem; }
+        .gas-bar { width: 60px; height: 6px; background: #2a2548; border-radius: 10px; overflow: hidden; }
+        .gas-fill { height: 100%; background: linear-gradient(90deg, #FFB347, #FF6F61); width: 0%; border-radius: 10px; transition: width 0.3s; }
+        .btn { padding: 10px 28px; border-radius: 60px; font-weight: 700; border: none; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(95deg, #FFB347, #FF6F61); color: #0A0A0F; }
+        .btn-primary:hover { transform: scale(1.02); }
+        .btn-outline { background: rgba(255,255,245,0.06); border: 1px solid #FFB347; color: white; }
+        .btn-sm { background: rgba(255,180,70,0.15); border: 0.5px solid #FFB347; padding: 5px 16px; border-radius: 40px; cursor: pointer; font-size: 0.7rem; }
+        .creator-badge { background: rgba(255,180,70,0.15); padding: 6px 18px; border-radius: 60px; font-size: 0.7rem; }
+        .progress-container { background: #2a2548; border-radius: 20px; height: 8px; margin: 10px 0; overflow: hidden; }
+        .progress-fill { background: linear-gradient(90deg, #FFB347, #FF6F61); height: 100%; border-radius: 20px; width: 0%; transition: width 0.3s; }
+        .stats-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+        .stat-card { background: rgba(10,10,24,0.65); backdrop-filter: blur(20px); border-radius: 32px; padding: 16px 24px; flex: 1; min-width: 140px; text-align: center; border: 1px solid rgba(255,180,80,0.3); }
+        .stat-number { font-size: 2rem; font-weight: 800; color: #FFD966; }
+        .faucet-banner { background: linear-gradient(95deg, #1A153A, #0F0D28); border-radius: 48px; padding: 14px 24px; margin-bottom: 32px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; align-items: center; }
+        .price-grid { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; }
+        .price-card { flex: 1; min-width: 100px; background: rgba(8,10,22,0.6); backdrop-filter: blur(16px); border-radius: 32px; padding: 12px 8px; text-align: center; border: 1px solid rgba(255,180,80,0.3); }
+        .price-number { font-size: 1.3rem; font-weight: 800; margin: 4px 0; color: #FFD966; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1.2fr; gap: 28px; margin-bottom: 32px; }
+        .glass-card { background: rgba(10,10,24,0.65); backdrop-filter: blur(24px); border-radius: 44px; padding: 24px; border: 1px solid rgba(255,200,100,0.25); }
+        .section-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #FFD966; }
+        .input-field { width: 100%; background: #0A0918; border: 1px solid #2F2A50; border-radius: 56px; padding: 12px 20px; margin-bottom: 16px; color: white; font-family: inherit; }
+        .input-field:focus { outline: none; border-color: #FFB347; }
+        .asset-list { display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; }
+        .asset-card { background: #0A0918; border-radius: 28px; padding: 14px; border: 1px solid #2A2548; transition: all 0.2s; }
+        .asset-card:hover { border-color: #FFB347; transform: translateX(5px); }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .tab-bar { display: flex; gap: 12px; margin-bottom: 20px; }
+        .tab { background: transparent; border: none; padding: 6px 20px; border-radius: 40px; color: #BFB9F0; cursor: pointer; }
+        .tab.active { background: rgba(255,180,70,0.2); color: #FFB347; }
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #1E1C38; padding: 12px 28px; border-radius: 60px; border-left: 3px solid #FFB347; z-index: 2000; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(-50%) translateY(-20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: #12102A; border-radius: 48px; padding: 32px; max-width: 600px; border: 1px solid #FFB347; max-height: 80vh; overflow-y: auto; }
+        .step { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 28px; }
+        .step-num { width: 36px; height: 36px; background: #FFB347; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0A0A0F; font-weight: bold; }
+        .example-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .example-table td, .example-table th { border: 1px solid #FFB347; padding: 6px; text-align: left; font-size: 0.7rem; }
+        .footer { text-align: center; margin-top: 40px; font-size: 0.7rem; color: #5A5580; }
+        @media (max-width: 850px) { .grid-2 { grid-template-columns: 1fr; } .header-final { flex-direction: column; text-align: center; } }
+    </style>
+</head>
+<body>
+<div class="orb-bg"></div>
+<div class="container">
+    <div class="header-final">
+        <div class="logo"><h1>✦ LiteRWA</h1><div class="tagline">tokenized gold · silver · oil · real estate</div></div>
+        <div class="wallet-group">
+            <button id="tutorialBtn" class="btn btn-outline" style="padding: 8px 20px;"><i class="fas fa-question-circle"></i> Tutorial</button>
+            <div class="gas-meter" id="gasMeter" style="display:none;"><i class="fas fa-gas-pump"></i> <span id="zkBalance">0</span> zkLTC<div class="gas-bar"><div class="gas-fill" id="gasFill"></div></div></div>
+            <button id="connectBtn" class="btn btn-primary"><i class="fas fa-plug"></i> Connect Wallet</button>
+            <button id="disconnectBtn" class="btn btn-outline" style="display:none;"><i class="fas fa-sign-out-alt"></i> Exit</button>
+            <div id="creatorBadge" class="creator-badge" style="display:none;"><i class="fas fa-crown"></i> Creator</div>
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-card"><div>🏆 Points</div><div class="stat-number" id="userPoints">0</div></div>
+        <div class="stat-card"><div>🎖️ Badge</div><div class="stat-number" id="currentBadge">⚪ Starter</div><div class="progress-container"><div class="progress-fill" id="progressFill"></div></div><div style="font-size:0.7rem;" id="pointsToNext">0/30 to Bronze</div></div>
+        <div class="stat-card"><div>📊 Rank</div><div class="stat-number" id="userRank">-</div></div>
+    </div>
+
+    <div class="faucet-banner">
+        <span><i class="fas fa-gift"></i> <strong>⚡ Need gas?</strong> Get free zkLTC from faucet</span>
+        <a href="https://testnet.litvm.com" target="_blank" style="color:#FFB347;">testnet.litvm.com →</a>
+    </div>
+
+    <div class="price-grid" id="priceArea">🌀 Loading prices...</div>
+
+    <div class="grid-2">
+        <div class="glass-card">
+            <div class="section-title"><i class="fas fa-crown"></i> ✦ Mint New RWA</div>
+            <input type="text" id="assetName" class="input-field" placeholder="🏷️ Asset Name (e.g., 1kg Gold Bar)">
+            <select id="assetType" class="input-field">
+                <option>🥇 Gold</option><option>🥈 Silver</option><option>🛢️ Oil</option><option>🏠 Real Estate</option>
+            </select>
+            <input type="number" id="assetValue" class="input-field" placeholder="💰 Valuation (USD)">
+            <input type="text" id="ipfsHash" class="input-field" placeholder="📎 IPFS Hash (optional)">
+            <button id="mintBtn" class="btn btn-primary" style="width:100%;justify-content:center;display:flex;gap:8px;"><i class="fas fa-sparkle"></i> Mint Asset (+10 pts)</button>
+            <div style="font-size:0.65rem;text-align:center;margin-top:12px;">⚡ 0.001 zkLTC gas · secured by LitVM ZK-rollup</div>
+        </div>
+
+        <div class="glass-card">
+            <div class="tab-bar">
+                <button id="assetsTab" class="tab active">📦 My Assets</button>
+                <button id="activityTab" class="tab">⏱️ Activity</button>
+            </div>
+            <div id="assetsPanel"><div id="myAssets" class="asset-list">✨ Connect wallet</div></div>
+            <div id="activityPanel" style="display:none;"><div id="activityList" class="asset-list">📭 No activity</div></div>
+        </div>
+    </div>
+
+    <div class="glass-card">
+        <div class="section-title"><i class="fas fa-store"></i> 🏪 Marketplace</div>
+        <div id="marketplace" class="asset-list">🌀 Loading marketplace...</div>
+    </div>
+
+    <div class="footer">⚡ LiteRWA on LitVM testnet · Chain ID 4441 · Gas: zkLTC · ZK-secured RWA</div>
+</div>
+
+<script>
+    const CONTRACT_ADDR = "0xeA1Dc56f30d3DFFaeA65F6a0cd5ff35A7Fb67e3A";
+    const ABI = [
+        "function creator() view returns (address)",
+        "function createAsset(string name, string assetType, uint256 valueUSD, string ipfsHash) returns (uint256)",
+        "function listAsset(uint256 id, uint256 price)",
+        "function buyAsset(uint256 id) payable",
+        "function delistAsset(uint256 id)",
+        "function getUserAssets(address user) view returns (tuple(uint256 id,string name,string assetType,uint256 valueUSD,address owner,bool isListed,uint256 price,string ipfsHash,uint256 createdAt)[])",
+        "function totalAssets() view returns (uint256)",
+        "function assets(uint256) view returns (tuple(uint256 id,string name,string assetType,uint256 valueUSD,address owner,bool isListed,uint256 price,string ipfsHash,uint256 createdAt))"
+    ];
+
+    let provider, signer, contract, userAddr;
+    let activityLog = [];
+    let userPoints = 0;
+    let challenges = { mint: 0, list: 0, buy: 0 };
+    let lastDailyReset = Date.now();
+
+    function toast(msg) {
+        let old = document.querySelector('.toast');
+        if(old) old.remove();
+        let div = document.createElement('div');
+        div.className = 'toast';
+        div.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 3000);
+    }
+
+    function getBadgeFromPoints(points) {
+        if(points >= 500) return { name: "💎 Diamond", next: 0 };
+        if(points >= 300) return { name: "⚡ Platinum", next: 500 };
+        if(points >= 150) return { name: "🥇 Gold", next: 300 };
+        if(points >= 75) return { name: "🥈 Silver", next: 150 };
+        if(points >= 30) return { name: "🥉 Bronze", next: 75 };
+        return { name: "⚪ Starter", next: 30 };
+    }
+
+    function updateUI() {
+        let badge = getBadgeFromPoints(userPoints);
+        document.getElementById('userPoints').innerText = userPoints;
+        document.getElementById('currentBadge').innerHTML = badge.name;
+        let progress = badge.next > 0 ? (userPoints / badge.next) * 100 : 100;
+        document.getElementById('progressFill').style.width = Math.min(100, progress) + '%';
+        document.getElementById('pointsToNext').innerText = badge.next > 0 ? `${userPoints}/${badge.next} to ${badge.name}` : "🏆 MAX!";
+    }
+
+    function addPoints(points, actionType = null) {
+        userPoints += points;
+        if(actionType === 'mint') challenges.mint++;
+        if(actionType === 'list') challenges.list++;
+        if(actionType === 'buy') challenges.buy++;
+        if(challenges.mint >= 3 && challenges.list >= 2 && challenges.buy >= 1 && !localStorage.getItem('challenge_bonus_' + userAddr)) {
+            userPoints += 30;
+            localStorage.setItem('challenge_bonus_' + userAddr, 'true');
+            toast("🎉 All challenges complete! +30 bonus points!");
+        }
+        localStorage.setItem('lwa_stats_' + (userAddr || 'guest'), JSON.stringify({ points: userPoints, challenges, lastDailyReset }));
+        updateUI();
+    }
+
+    function loadStats() {
+        let saved = localStorage.getItem('lwa_stats_' + (userAddr || 'guest'));
+        if(saved) { let s = JSON.parse(saved); userPoints = s.points || 0; challenges = s.challenges || { mint: 0, list: 0, buy: 0 }; }
+        updateUI();
+        document.getElementById('userRank').innerText = Math.floor(Math.random() * 100) + 1;
+    }
+
+    function addActivity(action, detail, tx = '') {
+        let entry = { action, detail, time: new Date().toLocaleTimeString(), tx };
+        activityLog.unshift(entry);
+        if(activityLog.length > 20) activityLog.pop();
+        localStorage.setItem('lwa_activity_' + (userAddr || 'guest'), JSON.stringify(activityLog));
+        let container = document.getElementById('activityList');
+        if(!activityLog.length) { container.innerHTML = '<div style="padding:20px;text-align:center;">📭 No activity yet</div>'; return; }
+        let html = '';
+        for(let a of activityLog) {
+            let icon = a.action.includes('Minted') ? '✨' : a.action.includes('Listed') ? '📢' : a.action.includes('Bought') ? '🛒' : '❌';
+            html += `<div class="asset-card"><div class="flex-between"><span><strong>${icon} ${a.action}</strong></span><span style="font-size:0.7rem;">${a.time}</span></div><div style="font-size:0.75rem;margin-top:6px;">${a.detail}</div></div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    async function fetchPrices() {
+        try {
+            let res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=litecoin,gold,bitcoin&vs_currencies=usd');
+            let d = await res.json();
+            let ltc = d.litecoin?.usd || 85;
+            let btc = d.bitcoin?.usd || 63000;
+            let gold = 2350 + (Math.random() * 16 - 8);
+            let silver = 28.2 + (Math.random() * 1 - 0.5);
+            let oil = 71 + (Math.random() * 5 - 2.5);
+            document.getElementById('priceArea').innerHTML = `
+                <div class="price-card"><div>LTC</div><div class="price-number">$${ltc.toFixed(2)}</div><div style="font-size:0.65rem;color:#4ade80;">▲ +0.8%</div></div>
+                <div class="price-card"><div>GOLD</div><div class="price-number">$${gold.toFixed(2)}</div><div style="font-size:0.65rem;color:#4ade80;">▲ +0.3%</div></div>
+                <div class="price-card"><div>SILVER</div><div class="price-number">$${silver.toFixed(2)}</div><div style="font-size:0.65rem;color:#f87171;">▼ -0.2%</div></div>
+                <div class="price-card"><div>OIL</div><div class="price-number">$${oil.toFixed(2)}</div><div style="font-size:0.65rem;color:#f87171;">▼ -0.6%</div></div>
+                <div class="price-card"><div>BTC</div><div class="price-number">$${btc.toFixed(0)}</div><div style="font-size:0.65rem;color:#4ade80;">▲ +1.1%</div></div>
+            `;
+        } catch(e) { console.warn(e); }
+    }
+
+    async function loadBalance() {
+        if(userAddr && provider) {
+            let bal = await provider.getBalance(userAddr);
+            let balNum = parseFloat(ethers.formatEther(bal));
+            document.getElementById('zkBalance').innerText = balNum.toFixed(3);
+            document.getElementById('gasFill').style.width = Math.min(100, (balNum / 0.5) * 100) + '%';
+        }
+    }
+
+    async function loadMyAssets() {
+        if(!contract || !userAddr) return;
+        let assets = await contract.getUserAssets(userAddr);
+        let container = document.getElementById('myAssets');
+        if(!assets.length) { container.innerHTML = '<div style="padding:20px;text-align:center;">🌟 No assets yet. Mint your first!</div>'; return; }
+        let html = '';
+        for(let a of assets) {
+            html += `<div class="asset-card">
+                        <div class="flex-between"><span><strong>#${a.id}</strong> ${a.name}</span><span style="background:#1E1B40;padding:4px 12px;border-radius:40px;">${a.assetType}</span></div>
+                        <div>💰 $${Number(ethers.formatEther(a.valueUSD)).toLocaleString()} USD</div>
+                        <div style="color:#FFD966;margin:8px 0;">${a.isListed ? Number(ethers.formatEther(a.price)).toFixed(2) + ' zkLTC' : 'Not listed'}</div>
+                        <div>${!a.isListed ? `<button class="btn-sm" onclick="listAsset(${a.id})"><i class="fas fa-tag"></i> List (+5 pts)</button>` : `<button class="btn-sm" onclick="delistAsset(${a.id})">Delist</button>`}</div>
+                    </div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    // ========== MARKETPLACE FIX ==========
+    async function loadMarketplace() {
+        try {
+            let rpcList = [
+                'https://liteforge.rpc.caldera.xyz/http',
+                'https://liteforge.rpc.caldera.xyz/http',
+                'https://liteforge.rpc.caldera.xyz/http'
+            ];
+            
+            let contractRead = null;
+            for(let rpc of rpcList) {
+                try {
+                    let testProvider = new ethers.JsonRpcProvider(rpc);
+                    let testContract = new ethers.Contract(CONTRACT_ADDR, ABI, testProvider);
+                    await testContract.totalAssets();
+                    contractRead = testContract;
+                    console.log("✅ RPC working:", rpc);
+                    break;
+                } catch(e) {}
+            }
+            
+            if(!contractRead) throw new Error("No RPC working");
+            
+            let total = await contractRead.totalAssets();
+            let listings = [];
+            for(let i=1; i<=total; i++) {
+                try {
+                    let a = await contractRead.assets(i);
+                    if(a.isListed) listings.push(a);
+                } catch(e) {}
+            }
+            
+            let container = document.getElementById('marketplace');
+            if(!listings.length) {
+                container.innerHTML = '<div style="padding:40px;text-align:center;"><i class="fas fa-store" style="font-size:2rem;color:#FFB347;"></i><br><br>🏪 No assets for sale<br><span style="font-size:0.8rem;">Be the first to list an asset!</span></div>';
+                return;
+            }
+            
+            let html = '';
+            for(let a of listings) {
+                let priceNum = Number(ethers.formatEther(a.price));
+                let valueNum = Number(ethers.formatEther(a.valueUSD));
+                let isOwner = userAddr && a.owner.toLowerCase() === userAddr.toLowerCase();
+                html += `<div class="asset-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                            <div>
+                                <strong>${a.name}</strong> 
+                                <span style="background:#1E1B40;padding:2px 8px;border-radius:40px;font-size:0.7rem;">${a.assetType}</span>
+                                <div style="font-size:0.7rem;">#${a.id} | $${valueNum.toLocaleString()} USD</div>
+                            </div>
+                            <div style="color:#FFD966;font-weight:700;">${priceNum.toFixed(2)} zkLTC</div>
+                            ${!userAddr ? `<button class="btn-sm" onclick="document.getElementById('connectBtn').click()">🔌 Connect to Buy</button>` : (isOwner ? `<span style="font-size:0.7rem;color:#5A5580;">📌 Your listing</span>` : `<button class="btn-sm" onclick="buyAsset(${a.id}, '${ethers.formatEther(a.price)}')">🛒 Buy (+20 pts)</button>`)}
+                        </div>`;
+            }
+            container.innerHTML = html;
+        } catch(e) {
+            console.error("Marketplace error:", e);
+            document.getElementById('marketplace').innerHTML = '<div style="padding:40px;text-align:center;"><i class="fas fa-store" style="font-size:2rem;color:#FFB347;"></i><br><br>🏪 Marketplace<br><span style="font-size:0.8rem;">Refresh page or connect wallet to trade</span></div>';
+        }
+    }
+
+    window.listAsset = async (id) => {
+        let price = prompt('✨ Set price (zkLTC):', '15');
+        if(!price || isNaN(price)) return;
+        let btn = event.target;
+        let old = btn.innerHTML;
+        btn.innerHTML = '⏳'; btn.disabled = true;
+        try {
+            let tx = await contract.listAsset(id, ethers.parseEther(price));
+            await tx.wait();
+            addPoints(5, 'list');
+            addActivity('📢 Listed', `Asset #${id} for ${price} zkLTC`, tx.hash);
+            toast(`✅ Asset #${id} listed for ${price} zkLTC`);
+            loadMyAssets(); loadMarketplace();
+        } catch(e) { toast(e.message.slice(0,50)); }
+        btn.innerHTML = old; btn.disabled = false;
+    };
+
+    window.buyAsset = async (id, priceStr) => {
+        if(!confirm(`Buy asset #${id} for ${priceStr} zkLTC?`)) return;
+        let btn = event.target;
+        let old = btn.innerHTML;
+        btn.innerHTML = '⏳'; btn.disabled = true;
+        try {
+            let tx = await contract.buyAsset(id, { value: ethers.parseEther(priceStr) });
+            await tx.wait();
+            addPoints(20, 'buy');
+            addActivity('🛒 Bought', `Asset #${id} for ${priceStr} zkLTC`, tx.hash);
+            toast(`🎉 Asset #${id} purchased!`);
+            loadBalance(); loadMarketplace(); loadMyAssets();
+        } catch(e) { toast(e.message.slice(0,50)); }
+        btn.innerHTML = old; btn.disabled = false;
+    };
+
+    window.delistAsset = async (id) => {
+        if(!confirm('Delist from marketplace?')) return;
+        let btn = event.target;
+        let old = btn.innerHTML;
+        btn.innerHTML = '⏳'; btn.disabled = true;
+        try {
+            let tx = await contract.delistAsset(id);
+            await tx.wait();
+            addActivity('❌ Delisted', `Asset #${id} removed`, tx.hash);
+            toast(`Asset #${id} delisted`);
+            loadMyAssets(); loadMarketplace();
+        } catch(e) { toast(e.message.slice(0,50)); }
+        btn.innerHTML = old; btn.disabled = false;
+    };
+
+    function showTutorial() {
+        let modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <h2 style="margin-bottom:20px;">📖 How to Use LiteRWA</h2>
+                <div class="step"><div class="step-num">1</div><div><strong>Connect Wallet</strong><br>Click "Connect Wallet" → Approve LitVM network (Chain ID: 4441)</div></div>
+                <div class="step"><div class="step-num">2</div><div><strong>Get Gas (zkLTC)</strong><br>Click faucet link above → Paste wallet address → Request 0.2 zkLTC</div></div>
+                <div class="step"><div class="step-num">3</div><div><strong>📝 Mint Asset (How to Fill Form)</strong><br>
+                    <table class="example-table">
+                        <tr><th>Category</th><th>Asset Name Example</th><th>Valuation Example</th></tr>
+                        <tr><td>🥇 Gold</td><td>"1kg Gold Bar", "Gold Coin"</td><td>2500 USD</td></tr>
+                        <tr><td>🥈 Silver</td><td>"500g Silver Bar"</td><td>450 USD</td></tr>
+                        <tr><td>🛢️ Oil</td><td>"WTI Crude Barrel", "Brent Oil"</td><td>72 USD</td></tr>
+                        <tr><td>🏠 Real Estate</td><td>"Apartment Unit 5B", "Warehouse"</td><td>250000 USD</td></tr>
+                    </table>
+                </div></div>
+                <div class="step"><div class="step-num">4</div><div><strong>List for Sale</strong><br>Go to "My Assets" → Click "List" → Set price (example: 15 zkLTC)</div></div>
+                <div class="step"><div class="step-num">5</div><div><strong>Buy Assets</strong><br>Go to "Marketplace" → Click "Buy" on any asset</div></div>
+                <div class="step"><div class="step-num">🎁</div><div><strong>Earn Points & Badges!</strong><br>Mint: +10 | List: +5 | Buy: +20 | Complete all 3 challenges for +30 bonus!</div></div>
+                <button id="closeTutorial" class="btn btn-primary" style="width:100%;margin-top:20px;">Start Trading!</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById('closeTutorial').onclick = () => modal.remove();
+    }
+
+    document.getElementById('tutorialBtn').onclick = showTutorial;
+    if(!localStorage.getItem('tutorial_seen_final')) {
+        setTimeout(showTutorial, 1500);
+        localStorage.setItem('tutorial_seen_final', 'true');
+    }
+
+    document.getElementById('connectBtn').onclick = async () => {
+        if(!window.ethereum) return toast('Install MetaMask');
+        try {
+            await window.ethereum.request({ method: 'wallet_addEthereumChain', params: [{ chainId: '0x1159', chainName: 'LitVM Testnet', nativeCurrency: { name: 'zkLTC', symbol: 'zkLTC', decimals: 18 }, rpcUrls: ['https://liteforge.rpc.caldera.xyz/http'] }] });
+            let accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            userAddr = accounts[0];
+            provider = new ethers.BrowserProvider(window.ethereum);
+            signer = await provider.getSigner();
+            contract = new ethers.Contract(CONTRACT_ADDR, ABI, signer);
+            let creator = await contract.creator();
+            let isCreator = userAddr.toLowerCase() === creator.toLowerCase();
+            document.getElementById('connectBtn').style.display = 'none';
+            document.getElementById('disconnectBtn').style.display = 'flex';
+            document.getElementById('gasMeter').style.display = 'flex';
+            if(isCreator) document.getElementById('creatorBadge').style.display = 'flex';
+            let savedAct = localStorage.getItem('lwa_activity_' + userAddr);
+            if(savedAct) { try { activityLog = JSON.parse(savedAct); renderActivity(); } catch(e) {} }
+            loadStats(); loadBalance(); loadMyAssets(); loadMarketplace();
+            setInterval(loadBalance, 15000);
+        } catch(e) { toast(e.message); }
+    };
+
+    document.getElementById('disconnectBtn').onclick = () => {
+        userAddr = null;
+        document.getElementById('connectBtn').style.display = 'flex';
+        document.getElementById('disconnectBtn').style.display = 'none';
+        document.getElementById('gasMeter').style.display = 'none';
+        document.getElementById('creatorBadge').style.display = 'none';
+        document.getElementById('myAssets').innerHTML = '<div style="padding:20px;text-align:center;">✨ Connect wallet</div>';
+        loadMarketplace();
+        toast('Disconnected');
+    };
+
+    document.getElementById('mintBtn').onclick = async () => {
+        let name = document.getElementById('assetName').value;
+        let type = document.getElementById('assetType').value;
+        let val = document.getElementById('assetValue').value;
+        let ipfs = document.getElementById('ipfsHash').value;
+        if(!name || !val) return toast('Name and valuation required');
+        let finalIpfs = ipfs.trim() || 'QmDummy';
+        let btn = document.getElementById('mintBtn');
+        let old = btn.innerHTML;
+        btn.innerHTML = '⏳ Minting...'; btn.disabled = true;
+        try {
+            let tx = await contract.createAsset(name, type, ethers.parseEther(val), finalIpfs);
+            await tx.wait();
+            addPoints(10, 'mint');
+            addActivity('✨ Minted', `${type}: ${name} ($${val} USD)`, tx.hash);
+            toast(`✨ ${name} minted!`);
+            loadMyAssets();
+            document.getElementById('assetName').value = '';
+            document.getElementById('assetValue').value = '';
+            document.getElementById('ipfsHash').value = '';
+        } catch(e) { toast(e.message.slice(0,50)); }
+        btn.innerHTML = old; btn.disabled = false;
+    };
+
+    function renderActivity() {
+        let container = document.getElementById('activityList');
+        if(!activityLog.length) { container.innerHTML = '<div style="padding:20px;text-align:center;">📭 No activity yet</div>'; return; }
+        let html = '';
+        for(let a of activityLog) {
+            let icon = a.action.includes('Minted') ? '✨' : a.action.includes('Listed') ? '📢' : a.action.includes('Bought') ? '🛒' : '❌';
+            html += `<div class="asset-card"><div class="flex-between"><span><strong>${icon} ${a.action}</strong></span><span style="font-size:0.7rem;">${a.time}</span></div><div style="font-size:0.75rem;margin-top:6px;">${a.detail}</div></div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    document.getElementById('assetsTab').onclick = () => {
+        document.getElementById('assetsPanel').style.display = 'block';
+        document.getElementById('activityPanel').style.display = 'none';
+        document.getElementById('assetsTab').classList.add('active');
+        document.getElementById('activityTab').classList.remove('active');
+    };
+    document.getElementById('activityTab').onclick = () => {
+        document.getElementById('assetsPanel').style.display = 'none';
+        document.getElementById('activityPanel').style.display = 'block';
+        document.getElementById('activityTab').classList.add('active');
+        document.getElementById('assetsTab').classList.remove('active');
+        renderActivity();
+    };
+
+    loadMarketplace();
+    fetchPrices();
+    setInterval(fetchPrices, 30000);
+    setInterval(loadMarketplace, 15000);
+</script>
+</body>
+</html>
