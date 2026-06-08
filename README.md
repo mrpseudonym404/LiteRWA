@@ -2,7 +2,7 @@
 
 **Tokenize and trade real-world assets on LitVM testnet.**
 
-Live demo: *update with your Vercel link*
+Live demo: [https://literwa.vercel.app](https://literwa.vercel.app)
 
 ---
 
@@ -20,7 +20,7 @@ Built to learn dApp development and explore RWA (Real-World Assets) on blockchai
 - **List** — Sell your tokens for zkLTC (min 0.01)
 - **Buy** — Purchase tokens from other users
 - **Transfer** — Send tokens to any wallet
-- **Points + Badges** — Mint=10, List=5, Buy=20
+- **Points + Badges** — Mint = 10, List = 5, Buy = 20
 - **Daily Check-in** — Streak rewards
 - **Activity log** — Every transaction saved locally
 - **Explorer links** — Click "View" to see tx on-chain
@@ -50,23 +50,30 @@ Go to "My Assets" → click "List" → set price in zkLTC (min 0.01)
 Browse "Marketplace", use search or filters, click "Buy"
 
 ### 5. Earn points & badges
-Every action gives points. Reach 30 → Bronze, 75 → Silver, 150 → Gold, 300 → Platinum, 500 → Diamond.
+Every action gives points. Reach:
+- 30 points → Bronze
+- 75 points → Silver
+- 150 points → Gold
+- 300 points → Platinum
+- 500 points → Diamond
 
 ---
 
 ## Tech stack
 
-- Frontend: HTML, CSS, JavaScript (no frameworks)
-- Web3: Ethers.js v6
-- Blockchain: LitVM testnet (Chain ID 4441)
-- Oracle: CoinGecko API (price display only)
-- Hosting: Vercel
+- **Frontend**: HTML, CSS, JavaScript (no frameworks)
+- **Web3**: Ethers.js v6
+- **Blockchain**: LitVM testnet (Chain ID 4441)
+- **Oracle**: CoinGecko API (price display only)
+- **Hosting**: Vercel
 
 ---
 
 ## Contract
 
-Deployed on LitVM testnet at:0xeA1Dc56f30d3DFFaeA65F6a0cd5ff35A7Fb67e3A                                                                                        
+Deployed on LitVM testnet at:  
+`0xeA1Dc56f30d3DFFaeA65F6a0cd5ff35A7Fb67e3A`
+
 Explorer: [https://liteforge.explorer.caldera.xyz](https://liteforge.explorer.caldera.xyz)
 
 ---
@@ -74,7 +81,7 @@ Explorer: [https://liteforge.explorer.caldera.xyz](https://liteforge.explorer.ca
 ## Run locally
 
 ```bash
-git clone https://github.com/yourusername/literwa-frontend.git
-cd literwa-frontend
+git clone https://github.com/mrpseudonym404/LiteRWA.git
+cd LiteRWA
 python3 -m http.server 3000
 # then open http://localhost:3000
