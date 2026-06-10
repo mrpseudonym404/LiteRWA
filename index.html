@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>LiteRWA V2 | RWA Marketplace on LitVM</title>
+    <title>LiteRWA | RWA Marketplace on LitVM</title>
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,8 +13,6 @@
         .orb-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 30%,rgba(255,100,80,0.2),transparent 45%),radial-gradient(circle at 85% 70%,rgba(255,180,60,0.18),transparent 50%);animation:bgPulse 8s infinite alternate;z-index:0;pointer-events:none;}
         @keyframes bgPulse{0%{opacity:0.6;}100%{opacity:1;}}
         .container{max-width:1400px;margin:0 auto;padding:16px;position:relative;z-index:10;}
-        
-        /* Header */
         .header-final{background:rgba(8,8,20,0.6);backdrop-filter:blur(20px);border-radius:80px;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px;border:1px solid rgba(255,180,80,0.4);}
         .logo h1{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#FFE6B0,#FFB347,#FF6F61);-webkit-background-clip:text;background-clip:text;color:transparent;}
         .tagline{font-size:0.65rem;color:#A8A3D0;}
@@ -25,74 +23,55 @@
         .btn{padding:9px 22px;border-radius:60px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:all 0.2s;font-size:0.85rem;}
         .btn-primary{background:linear-gradient(95deg,#FFB347,#FF6F61);color:#0A0A0F;}
         .btn-primary:hover{transform:scale(1.02);}
+        .btn-primary:disabled{opacity:0.5;cursor:not-allowed;}
         .btn-outline{background:rgba(255,255,245,0.06);border:1px solid #FFB347;color:white;}
-        .btn-sm{background:rgba(255,180,70,0.15);border:0.5px solid #FFB347;padding:5px 14px;border-radius:40px;cursor:pointer;font-size:0.68rem;color:white;}
-        .btn-sm:hover{background:rgba(255,180,70,0.3);}
+        .btn-sm{background:rgba(255,180,70,0.15);border:0.5px solid #FFB347;padding:5px 14px;border-radius:40px;cursor:pointer;font-size:0.68rem;color:white;transition:all 0.2s;}
+        .btn-sm:hover{background:rgba(255,180,70,0.3);transform:scale(1.02);}
+        .connect-prompt{background:rgba(255,180,70,0.1);border:1px solid #FFB347;border-radius:40px;padding:12px 20px;text-align:center;cursor:pointer;transition:all 0.2s;}
+        .connect-prompt:hover{background:rgba(255,180,70,0.2);transform:scale(1.01);}
         .network-badge{background:#22c55e20;border:1px solid #22c55e;border-radius:60px;padding:4px 12px;font-size:0.7rem;display:flex;align-items:center;gap:6px;}
-        .network-badge i{color:#22c55e;}
         .creator-badge{background:rgba(255,180,70,0.15);padding:5px 14px;border-radius:60px;font-size:0.68rem;border:1px solid rgba(255,180,70,0.3);}
-        
-        /* Check-in */
         .checkin-banner{background:linear-gradient(95deg,#0D1F0D,#0A1A0A);border:1px solid #4ade80;border-radius:40px;padding:14px 20px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
         .streak-info{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-        .streak-fire{font-size:1.8rem;}
         .streak-num{font-size:1.4rem;font-weight:900;color:#4ade80;}
-        .btn-checkin{background:linear-gradient(95deg,#4ade80,#22c55e);color:#0A0F0A;padding:10px 24px;border-radius:60px;font-weight:800;border:none;cursor:pointer;font-size:0.9rem;}
-        
-        /* Stats */
+        .btn-checkin{background:linear-gradient(95deg,#4ade80,#22c55e);color:#0A0F0A;padding:10px 24px;border-radius:60px;font-weight:800;border:none;cursor:pointer;font-size:0.9rem;transition:all 0.2s;}
+        .btn-checkin:hover{transform:scale(1.02);}
         .stats-row{display:flex;gap:14px;margin-bottom:20px;flex-wrap:wrap;}
         .stat-card{background:rgba(10,10,24,0.65);backdrop-filter:blur(20px);border-radius:28px;padding:14px 20px;flex:1;min-width:120px;text-align:center;border:1px solid rgba(255,180,80,0.3);}
         .stat-number{font-size:1.8rem;font-weight:800;color:#FFD966;}
         .progress-container{background:#2a2548;border-radius:20px;height:7px;margin:8px 0;overflow:hidden;}
         .progress-fill{background:linear-gradient(90deg,#FFB347,#FF6F61);height:100%;width:0%;}
-        
         .faucet-banner{background:linear-gradient(95deg,#1A153A,#0F0D28);border-radius:40px;padding:12px 20px;margin-bottom:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:center;font-size:0.85rem;}
-        
-        /* Price Grid */
         .price-grid{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;}
         .price-card{flex:1;min-width:90px;background:rgba(8,10,22,0.6);backdrop-filter:blur(16px);border-radius:28px;padding:10px 6px;text-align:center;border:1px solid rgba(255,180,80,0.3);font-size:0.8rem;}
         .price-number{font-size:1.1rem;font-weight:800;margin:3px 0;color:#FFD966;}
-        
-        /* Main Grid */
         .grid-2{display:grid;grid-template-columns:1fr 1.2fr;gap:20px;margin-bottom:20px;}
         .glass-card{background:rgba(10,10,24,0.65);backdrop-filter:blur(24px);border-radius:36px;padding:20px;border:1px solid rgba(255,200,100,0.25);}
         .section-title{font-size:1.1rem;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:#FFD966;}
         .input-field{width:100%;background:#0A0918;border:1px solid #2F2A50;border-radius:50px;padding:11px 18px;margin-bottom:12px;color:white;font-family:inherit;font-size:0.85rem;}
         .input-field:focus{outline:none;border-color:#FFB347;}
-        
-        /* Asset Lists */
-        .view-toggle{display:flex;gap:6px;margin-bottom:12px;}
-        .view-btn{background:rgba(255,180,70,0.1);border:1px solid #2F2A50;border-radius:30px;padding:5px 12px;font-size:0.7rem;cursor:pointer;}
-        .view-btn.active{background:#FFB34720;border-color:#FFB347;}
         .asset-list{display:flex;flex-direction:column;gap:10px;max-height:420px;overflow-y:auto;}
-        .asset-list.grid-view{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
         .asset-card{background:#0A0918;border-radius:24px;padding:12px;border:1px solid #2A2548;transition:all 0.2s;cursor:pointer;}
         .asset-card:hover{border-color:#FFB347;transform:translateX(4px);}
         .flex-between{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
         .price-usd{font-size:0.65rem;color:#86efac;margin-top:2px;}
-        
-        /* Tabs */
         .tab-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
-        .tab{background:transparent;border:none;padding:5px 16px;border-radius:40px;color:#BFB9F0;cursor:pointer;font-size:0.8rem;}
+        .tab{background:transparent;border:none;padding:5px 16px;border-radius:40px;color:#BFB9F0;cursor:pointer;font-size:0.8rem;transition:all 0.2s;}
         .tab.active{background:rgba(255,180,70,0.2);color:#FFB347;}
-        
         .search-bar{width:100%;background:#0A0918;border:1px solid #2F2A50;border-radius:50px;padding:10px 16px 10px 36px;color:white;font-size:0.82rem;margin-bottom:12px;}
         .search-wrap{position:relative;}
         .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#5A5580;font-size:0.8rem;}
-        .filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
-        .filter-btn{background:rgba(255,180,70,0.08);border:1px solid #2F2A50;padding:4px 12px;border-radius:30px;cursor:pointer;font-size:0.68rem;color:#BFB9F0;}
+        .filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
+        .filter-btn{background:rgba(255,180,70,0.08);border:1px solid #2F2A50;padding:4px 12px;border-radius:30px;cursor:pointer;font-size:0.68rem;color:#BFB9F0;transition:all 0.2s;}
         .filter-btn.active{background:rgba(255,180,70,0.25);border-color:#FFB347;color:#FFD966;}
-        .sort-select{background:#0A0918;border:1px solid #2F2A50;border-radius:30px;padding:4px 12px;color:white;font-size:0.7rem;margin-left:auto;}
-        
-        /* Skeleton Loader */
+        .sort-select{background:#0A0918;border:1px solid #2F2A50;border-radius:30px;padding:4px 12px;color:white;font-size:0.7rem;cursor:pointer;}
         .skeleton{background:linear-gradient(90deg,#1a1735 25%,#2a2548 50%,#1a1735 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:20px;height:80px;margin-bottom:8px;}
         @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-        
-        /* Toast & Modal */
+        .spinner{width:40px;height:40px;border:3px solid #2a2548;border-top-color:#FFB347;border-radius:50%;animation:spin 0.8s linear infinite;margin:20px auto;}
+        @keyframes spin{to{transform:rotate(360deg);}}
         .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1E1C38;padding:11px 24px;border-radius:60px;border-left:3px solid #FFB347;z-index:9999;animation:fadeIn 0.3s;font-size:0.85rem;text-align:center;}
-        .toast a{color:#FFB347;text-decoration:none;margin-left:8px;}
+        .toast a{color:#FFB347;text-decoration:none;}
         @keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-16px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
-        
         .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;}
         .modal-content{background:#12102A;border-radius:40px;padding:28px;max-width:600px;width:100%;border:1px solid #FFB347;max-height:85vh;overflow-y:auto;}
         .step{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;padding:12px;background:rgba(255,255,255,0.04);border-radius:24px;}
@@ -103,19 +82,18 @@
         .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
         .detail-item{background:rgba(255,255,255,0.04);border-radius:16px;padding:12px;}
         .detail-label{font-size:0.65rem;color:#A8A3D0;margin-bottom:4px;}
-        .detail-value{font-size:0.9rem;font-weight:700;color:#FFD966;}
-        
+        .detail-value{font-size:0.9rem;font-weight:700;color:#FFD966;word-break:break-all;}
         .footer{text-align:center;margin-top:32px;font-size:0.7rem;padding-bottom:20px;}
         canvas.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10001;}
-        
-        @media(max-width:700px){.grid-2{grid-template-columns:1fr;}.header-final{flex-direction:column;text-align:center;}.asset-list.grid-view{grid-template-columns:1fr;}}
+        .last-update{font-size:0.6rem;color:#5a5580;margin-top:8px;text-align:right;}
+        @media(max-width:700px){.grid-2{grid-template-columns:1fr;}.header-final{flex-direction:column;text-align:center;}}
     </style>
 </head>
 <body>
 <div class="orb-bg"></div>
 <div class="container">
     <div class="header-final">
-        <div class="logo"><h1>✦ LiteRWA V2</h1><div class="tagline">tokenized gold · silver · oil · real estate</div></div>
+        <div class="logo"><h1>✦ LiteRWA</h1><div class="tagline">tokenized gold · silver · oil · real estate</div></div>
         <div class="wallet-group">
             <button id="tutorialBtn" class="btn btn-outline" style="padding:7px 16px;font-size:0.78rem;"><i class="fas fa-question-circle"></i> Tutorial</button>
             <div class="network-badge" id="networkBadge" style="display:none;"><i class="fas fa-check-circle"></i> LitVM ✓</div>
@@ -140,7 +118,7 @@
 
     <div class="faucet-banner"><span><i class="fas fa-gift" style="color:#FFB347;"></i> <strong>⚡ Need gas?</strong> Get free zkLTC from faucet</span><a href="https://testnet.litvm.com" target="_blank" style="color:#FFB347;">testnet.litvm.com →</a></div>
 
-    <div class="price-grid" id="priceArea">🌀 Loading prices...</div>
+    <div class="price-grid" id="priceArea"><div class="spinner"></div></div>
 
     <div class="grid-2">
         <div class="glass-card">
@@ -151,7 +129,7 @@
             </select>
             <input type="number" id="assetValue" class="input-field" placeholder="💰 Valuation USD (min 1)">
             <input type="text" id="ipfsHash" class="input-field" placeholder="📎 IPFS Hash (optional)">
-            <button id="mintBtn" class="btn btn-primary" style="width:100%;justify-content:center;display:flex;gap:8px;"><i class="fas fa-star"></i> Mint Asset (+10 pts)</button>
+            <button id="mintBtn" class="btn btn-primary" style="width:100%;justify-content:center;display:flex;gap:8px;" disabled><i class="fas fa-star"></i> Connect Wallet to Mint</button>
             <div style="font-size:0.62rem;text-align:center;margin-top:10px;">⚡ 0.001 zkLTC gas · ZK-secured</div>
         </div>
         <div class="glass-card">
@@ -161,14 +139,10 @@
                 <button id="activityTab" class="tab">⏰ Activity</button>
             </div>
             <div id="assetsPanel">
-                <div class="view-toggle" id="viewToggle" style="display:none;">
-                    <button class="view-btn active" data-view="list"><i class="fas fa-list"></i> List</button>
-                    <button class="view-btn" data-view="grid"><i class="fas fa-th"></i> Grid</button>
-                </div>
-                <div id="myAssets" class="asset-list"><div style="padding:16px;text-align:center;">✨ Connect wallet</div></div>
+                <div id="myAssets" class="asset-list"><div class="connect-prompt" onclick="document.getElementById('connectBtn').click()">🔌 Click here to connect wallet</div></div>
             </div>
-            <div id="myListingsPanel" style="display:none;"><div id="myListings" class="asset-list"><div style="padding:16px;text-align:center;">📌 No active listings</div></div></div>
-            <div id="activityPanel" style="display:none;"><div id="activityList" class="asset-list"><div style="padding:16px;text-align:center;">📪 No activity</div></div></div>
+            <div id="myListingsPanel" style="display:none;"><div id="myListings" class="asset-list"><div class="connect-prompt" onclick="document.getElementById('connectBtn').click()">🔌 Connect wallet to see your listings</div></div></div>
+            <div id="activityPanel" style="display:none;"><div id="activityList" class="asset-list"><div class="connect-prompt" onclick="document.getElementById('connectBtn').click()">🔌 Connect wallet to see activity</div></div></div>
         </div>
     </div>
 
@@ -187,11 +161,12 @@
                 <option value="id_asc">🔢 ID: Ascending</option>
             </select>
         </div>
-        <div id="marketplace" class="asset-list">🌀 Loading...</div>
+        <div id="marketplace" class="asset-list"><div class="spinner"></div></div>
+        <div class="last-update" id="lastUpdate"></div>
     </div>
     
     <div class="footer">
-        <span>⚡ LiteRWA V2 on LitVM testnet</span> · <span style="color:#4ade80;">Chain ID 4441</span> · <span style="color:#fbbf24;">Gas: zkLTC</span> · <span style="color:#FFB347;">ZK-secured RWA</span><br>
+        <span>⚡ LiteRWA on LitVM testnet</span> · <span style="color:#4ade80;">Chain ID 4441</span> · <span style="color:#fbbf24;">Gas: zkLTC</span> · <span style="color:#FFB347;">ZK-secured RWA</span><br>
         <span style="font-size:0.65rem;" id="statsFooter"></span>
     </div>
 </div>
@@ -206,9 +181,10 @@ let provider, signer, contract, userAddr;
 let activityLog = [];
 let userPoints = 0, challenges = { mint:0, list:0, buy:0 };
 let allListings = [], currentFilter = "all", marketSearch = "";
-let currentView = "list";
 let ltcPrice = 42.61;
 let totalAssetsCount = 0;
+let marketRefreshInterval = null;
+let isLoadingMarketplace = false;
 
 function toast(msg){let o=document.querySelector(".toast");if(o)o.remove();let d=document.createElement("div");d.className="toast";d.innerHTML=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),5000);}
 
@@ -218,8 +194,8 @@ function getCheckinData(){let d=localStorage.getItem("lwa_checkin_"+(userAddr||"
 function saveCheckinData(data){localStorage.setItem("lwa_checkin_"+(userAddr||"guest"),JSON.stringify(data));}
 function getStreakReward(s){if(s>=30)return 100;if(s>=7)return 25;if(s>=3)return 10;return 5;}
 function getTodayStr(){return new Date().toISOString().slice(0,10);}
-function updateCheckinUI(){let d=getCheckinData(),today=getTodayStr(),already=d.lastDate===today;document.getElementById("streakNum").textContent=d.streak;let r=getStreakReward(d.streak+1);document.getElementById("todayReward").textContent="+"+r+" pts";let btn=document.getElementById("checkinBtn");if(already){btn.disabled=true;btn.textContent="✓ Done Today!";document.getElementById("nextCheckinInfo").textContent="Come back tomorrow! Streak: "+d.streak;}else{btn.disabled=false;btn.textContent="✓ Check In";document.getElementById("nextCheckinInfo").textContent=d.streak>0?"Keep your "+d.streak+"-day streak!":"Start your streak today!";}}
-document.getElementById("checkinBtn").onclick=()=>{let d=getCheckinData(),today=getTodayStr();if(d.lastDate===today)return toast("Already checked in today!");let y=new Date();y.setDate(y.getDate()-1);let yStr=y.toISOString().slice(0,10);if(d.lastDate===yStr)d.streak+=1;else d.streak=1;d.lastDate=today;saveCheckinData(d);let r=getStreakReward(d.streak);addPoints(r,null);updateCheckinUI();toast(`✓ Checked in! +${r} pts! Streak: ${d.streak}`);showConfetti();};
+function updateCheckinUI(){let d=getCheckinData(),today=getTodayStr(),already=d.lastDate===today;document.getElementById("streakNum").textContent=d.streak;let r=getStreakReward(d.streak+1);document.getElementById("todayReward").textContent="+"+r+" pts";let btn=document.getElementById("checkinBtn");if(already){btn.disabled=true;btn.textContent="✓ Done Today!";document.getElementById("nextCheckinInfo").textContent="Come back tomorrow!";}else{btn.disabled=false;btn.textContent="✓ Check In";document.getElementById("nextCheckinInfo").textContent=d.streak>0?"Keep your "+d.streak+"-day streak!":"Start your streak today!";}}
+document.getElementById("checkinBtn").onclick=()=>{if(!userAddr){toast("⚠️ Connect wallet first!");return;}let d=getCheckinData(),today=getTodayStr();if(d.lastDate===today)return toast("Already checked in today!");let y=new Date();y.setDate(y.getDate()-1);let yStr=y.toISOString().slice(0,10);if(d.lastDate===yStr)d.streak+=1;else d.streak=1;d.lastDate=today;saveCheckinData(d);let r=getStreakReward(d.streak);addPoints(r,null);updateCheckinUI();toast(`✓ Checked in! +${r} pts! Streak: ${d.streak}`);showConfetti();};
 
 function getBadge(p){if(p>=500)return{name:"💎 Diamond",next:0};if(p>=300)return{name:"⚡ Platinum",next:500};if(p>=150)return{name:"🥇 Gold",next:300};if(p>=75)return{name:"🥈 Silver",next:150};if(p>=30)return{name:"🥉 Bronze",next:75};return{name:"⚪ Starter",next:30};}
 function updateUI(){let b=getBadge(userPoints);document.getElementById("userPoints").textContent=userPoints;document.getElementById("currentBadge").innerHTML=b.name;let p=b.next>0?Math.min(100,(userPoints/b.next)*100):100;document.getElementById("progressFill").style.width=p+"%";document.getElementById("pointsToNext").textContent=b.next>0?userPoints+"/"+b.next:"🏆 MAX!";let rank=Math.max(1,Math.min(200,Math.floor((500-userPoints)/5)));document.getElementById("userRank").textContent=rank||"-";}
@@ -228,34 +204,34 @@ function saveStats(){localStorage.setItem("lwa_stats_"+(userAddr||"guest"),JSON.
 function loadStats(){let s=localStorage.getItem("lwa_stats_"+(userAddr||"guest"));if(s){let d=JSON.parse(s);userPoints=d.points||0;challenges=d.challenges||{mint:0,list:0,buy:0};}updateUI();updateCheckinUI();}
 
 function addActivity(a,d,t){if(!userAddr)return;let e={action:a,detail:d,time:new Date().toLocaleTimeString(),tx:t};activityLog.unshift(e);if(activityLog.length>20)activityLog.pop();localStorage.setItem("lwa_act_"+userAddr,JSON.stringify(activityLog));renderActivity();}
-function renderActivity(){let c=document.getElementById("activityList");if(!activityLog.length){c.innerHTML="<div style='padding:16px;text-align:center;'>📪 No activity</div>";return;}c.innerHTML=activityLog.map(a=>{let i=a.action.includes("Mint")?"💎":a.action.includes("List")?"🪄":a.action.includes("Buy")?"⚡":a.action.includes("Transfer")?"🔄":"🗑️";return`<div class="asset-card"><div class="flex-between"><strong>${i} ${a.action}</strong><span style="font-size:0.65rem;">${a.time}</span></div><div style="font-size:0.72rem;margin-top:4px;">${a.detail}</div></div>`;}).join("");}
+function renderActivity(){let c=document.getElementById("activityList");if(!userAddr){c.innerHTML='<div class="connect-prompt" onclick="document.getElementById(\'connectBtn\').click()">🔌 Connect wallet to see activity</div>';return;}if(!activityLog.length){c.innerHTML="<div style='padding:16px;text-align:center;'>📪 No activity yet</div>";return;}c.innerHTML=activityLog.map(a=>`<div class="asset-card"><div class="flex-between"><strong>${a.action}</strong><span style="font-size:0.65rem;">${a.time}</span></div><div style="font-size:0.72rem;margin-top:4px;">${a.detail}</div></div>`).join("");}
 
-async function fetchPrices(){try{let r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=litecoin,bitcoin&vs_currencies=usd");let d=await r.json();ltcPrice=d.litecoin?.usd||42.61;let btc=d.bitcoin?.usd||62000;let gold=2340+(Math.random()*20-10),silver=28+(Math.random()*2-1),oil=70+(Math.random()*6-3);document.getElementById("priceArea").innerHTML=[["LTC","$"+ltcPrice.toFixed(2),"#4ade80","▲ +0.8%"],["GOLD","$"+gold.toFixed(2),"#4ade80","▲ +0.3%"],["SILVER","$"+silver.toFixed(2),"#f87171","▼ -0.2%"],["OIL","$"+oil.toFixed(2),"#f87171","▼ -0.6%"],["BTC","$"+btc.toFixed(0),"#4ade80","▲ +1.1%"]].map(([n,v,c,ch])=>`<div class="price-card"><div>${n}</div><div class="price-number">${v}</div><div style="font-size:0.6rem;color:${c};">${ch}</div></div>`).join("");}catch(e){}}
+async function fetchPrices(){try{let r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=litecoin,bitcoin&vs_currencies=usd");let d=await r.json();ltcPrice=d.litecoin?.usd||42.61;let btc=d.bitcoin?.usd||62000;let gold=2340+(Math.random()*20-10),silver=28+(Math.random()*2-1),oil=70+(Math.random()*6-3);document.getElementById("priceArea").innerHTML=[["LTC","$"+ltcPrice.toFixed(2),""],["GOLD","$"+gold.toFixed(2),""],["SILVER","$"+silver.toFixed(2),""],["OIL","$"+oil.toFixed(2),""],["BTC","$"+btc.toFixed(0),""]].map(([n,v])=>`<div class="price-card"><div>${n}</div><div class="price-number">${v}</div></div>`).join("");}catch(e){}}
 
 async function loadBalance(){if(userAddr&&provider){let b=await provider.getBalance(userAddr);let n=parseFloat(ethers.formatEther(b));document.getElementById("zkBalance").textContent=n.toFixed(4);document.getElementById("myBalanceDisplay").textContent=n.toFixed(4);document.getElementById("myBalanceUSD").textContent="$"+(n*ltcPrice).toFixed(2);document.getElementById("gasFill").style.width=Math.min(100,(n/0.5)*100)+"%";}}
 
-async function loadMyAssets(){if(!contract||!userAddr)return;let c=document.getElementById("myAssets");c.innerHTML='<div class="skeleton"></div><div class="skeleton"></div>';try{let a=await contract.getUserAssets(userAddr);if(!a.length){c.innerHTML="<div style='padding:16px;text-align:center;'>💫 No assets yet</div>";return;}c.innerHTML=a.map(a=>{let id=Number(a[0]),name=a[1],type=a[2],listed=a[5],price=a[6],pStr=listed?Number(ethers.formatEther(price)).toFixed(3)+" zkLTC":"Not listed";let usdValue=listed?Number(ethers.formatEther(price))*ltcPrice:0;return`<div class="asset-card" onclick='showAssetDetail(${id},"${name}","${type}")'><div class="flex-between"><span><strong>#${id}</strong> ${name}</span><span style="background:#1E1B40;padding:3px 10px;border-radius:30px;">${type}</span></div><div style="color:#FFD966;font-size:0.9rem;margin:6px 0;">${pStr}</div>${listed?`<div class="price-usd">~ $${usdValue.toFixed(2)} USD</div>`:''}<div onclick="event.stopPropagation()">${!listed?`<button class="btn-sm" onclick="listAsset(${id})"><i class="fas fa-tag"></i> List (+5)</button>`:`<button class="btn-sm" onclick="delistAsset(${id})">Delist</button>`}<button class="btn-sm" style="margin-left:6px;" onclick="showTransfer(${id})">🔄 Transfer</button></div></div>`;}).join("");}catch(e){c.innerHTML="<div style='padding:16px;text-align:center;color:#f87171;'>Error loading assets</div>";}}
+async function loadMyAssets(){if(!contract||!userAddr){document.getElementById("myAssets").innerHTML='<div class="connect-prompt" onclick="document.getElementById(\'connectBtn\').click()">🔌 Click here to connect wallet</div>';return;}let c=document.getElementById("myAssets");c.innerHTML='<div class="skeleton"></div><div class="skeleton"></div>';try{let a=await contract.getUserAssets(userAddr);if(!a.length){c.innerHTML="<div style='padding:16px;text-align:center;'>💫 No assets yet. Mint your first RWA!</div>";return;}c.innerHTML=a.map(a=>{let id=Number(a[0]),name=a[1],type=a[2],listed=a[5],price=a[6],pStr=listed?Number(ethers.formatEther(price)).toFixed(3)+" zkLTC":"Not listed";let usdValue=listed?Number(ethers.formatEther(price))*ltcPrice:0;return`<div class="asset-card" onclick='showAssetDetail(${id},"${name}","${type}")'><div class="flex-between"><span><strong>#${id}</strong> ${name.substring(0,20)}</span><span style="background:#1E1B40;padding:3px 10px;border-radius:30px;">${type}</span></div><div style="color:#FFD966;font-size:0.9rem;margin:6px 0;">${pStr}</div>${listed?`<div class="price-usd">~ $${usdValue.toFixed(2)} USD</div>`:''}<div onclick="event.stopPropagation()">${!listed?`<button class="btn-sm" onclick="listAsset(${id})"><i class="fas fa-tag"></i> List (+5)</button>`:`<button class="btn-sm" onclick="delistAsset(${id})">Delist</button>`}<button class="btn-sm" style="margin-left:6px;" onclick="showTransfer(${id})">🔄 Transfer</button></div></div>`;}).join("");}catch(e){c.innerHTML="<div style='padding:16px;text-align:center;color:#f87171;'>Error loading assets</div>";}}
 
-async function loadMyListings(){if(!contract||!userAddr)return;let c=document.getElementById("myListings");c.innerHTML='<div class="skeleton"></div>';try{let a=await contract.getUserAssets(userAddr);let listings=a.filter(asset=>asset[5]===true);if(!listings.length){c.innerHTML="<div style='padding:16px;text-align:center;'>📌 No active listings</div>";return;}c.innerHTML=listings.map(a=>{let id=Number(a[0]),name=a[1],type=a[2],price=a[6],p=Number(ethers.formatEther(price));return`<div class="asset-card"><div class="flex-between"><span><strong>#${id}</strong> ${name}</span><span>${type}</span></div><div style="color:#4ade80;font-size:0.9rem;margin:6px 0;">${p.toFixed(3)} zkLTC (~$${(p*ltcPrice).toFixed(2)} USD)</div><button class="btn-sm" onclick="delistAsset(${id})">🗑️ Delist</button></div>`;}).join("");}catch(e){c.innerHTML="<div style='padding:16px;text-align:center;'>Error</div>";}}
+async function loadMyListings(){if(!contract||!userAddr){document.getElementById("myListings").innerHTML='<div class="connect-prompt" onclick="document.getElementById(\'connectBtn\').click()">🔌 Connect wallet to see your listings</div>';return;}let c=document.getElementById("myListings");c.innerHTML='<div class="skeleton"></div>';try{let a=await contract.getUserAssets(userAddr);let listings=a.filter(asset=>asset[5]===true);if(!listings.length){c.innerHTML="<div style='padding:16px;text-align:center;'>📌 No active listings</div>";return;}c.innerHTML=listings.map(a=>{let id=Number(a[0]),name=a[1],type=a[2],price=a[6],p=Number(ethers.formatEther(price));return`<div class="asset-card"><div class="flex-between"><span><strong>#${id}</strong> ${name.substring(0,20)}</span><span>${type}</span></div><div style="color:#4ade80;font-size:0.9rem;margin:6px 0;">${p.toFixed(3)} zkLTC (~$${(p*ltcPrice).toFixed(2)} USD)</div><button class="btn-sm" onclick="delistAsset(${id})">🗑️ Delist</button></div>`;}).join("");}catch(e){c.innerHTML="<div style='padding:16px;text-align:center;'>Error</div>";}}
 
 window.showAssetDetail=(id,name,type)=>{let m=document.createElement("div");m.className="modal-overlay";m.innerHTML=`<div class="modal-content"><div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h2>📋 Asset #${id}</h2><button onclick="this.closest('.modal-overlay').remove()" style="background:none;border:none;color:#A8A3D0;font-size:1.4rem;">×</button></div><div class="detail-grid"><div class="detail-item"><div class="detail-label">Name</div><div class="detail-value">${name}</div></div><div class="detail-item"><div class="detail-label">Type</div><div class="detail-value">${type}</div></div></div><button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="this.closest('.modal-overlay').remove()">Close</button></div>`;document.body.appendChild(m);m.addEventListener("click",e=>{if(e.target===m)m.remove();});};
 
-window.showTransfer=(id)=>{let m=document.createElement("div");m.className="modal-overlay";m.innerHTML=`<div class="modal-content"><h2>🔄 Transfer Asset #${id}</h2><input type="text" id="transferAddr" class="input-field" placeholder="0x... recipient address" style="margin:16px 0;"><button class="btn btn-primary" style="width:100%;" onclick="doTransfer(${id})">Confirm Transfer</button></div>`;document.body.appendChild(m);m.addEventListener("click",e=>{if(e.target===m)m.remove();});};
+window.showTransfer=(id)=>{if(!userAddr){toast("Connect wallet first!");return;}let m=document.createElement("div");m.className="modal-overlay";m.innerHTML=`<div class="modal-content"><h2>🔄 Transfer Asset #${id}</h2><input type="text" id="transferAddr" class="input-field" placeholder="0x... recipient address" style="margin:16px 0;"><button class="btn btn-primary" style="width:100%;" onclick="doTransfer(${id})">Confirm Transfer</button></div>`;document.body.appendChild(m);m.addEventListener("click",e=>{if(e.target===m)m.remove();});};
 window.doTransfer=async(id)=>{let addr=document.getElementById("transferAddr")?.value?.trim();if(!addr||!addr.startsWith("0x"))return toast("❌ Invalid address");let m=document.querySelector(".modal-overlay");try{let tx=await contract.transferAsset(id,addr);toast(`⏳ Transferring...`);await tx.wait();if(m)m.remove();addActivity("🔄 Transfer","Asset #"+id+" → "+addr.slice(0,8)+"...",tx.hash);toast(`✅ Transferred! <a href="${EXPLORER}${tx.hash}" target="_blank">🔗 View</a>`);loadMyAssets();loadMyListings();loadMarketplace();}catch(e){toast("❌ "+e.message.slice(0,50));}};
 
-function renderMarket(){let c=document.getElementById("marketplace");let f=allListings.filter(a=>{let mF=currentFilter==="all"||a[2]===currentFilter;let searchLower=marketSearch.toLowerCase();let mS=!marketSearch||a[1].toLowerCase().includes(searchLower)||String(a[0]).includes(searchLower);return mF&&mS;});let sortVal=document.getElementById("sortSelect").value;if(sortVal==="price_asc")f.sort((a,b)=>Number(ethers.formatEther(a[6]))-Number(ethers.formatEther(b[6])));else if(sortVal==="price_desc")f.sort((a,b)=>Number(ethers.formatEther(b[6]))-Number(ethers.formatEther(a[6])));else f.sort((a,b)=>Number(a[0])-Number(b[0]));if(!f.length){c.innerHTML=`<div style="padding:32px;text-align:center;"><i class="fas fa-store" style="font-size:2rem;color:#FFB347;display:block;margin-bottom:12px;"></i>${allListings.length?"No results":"⚡ No assets for sale yet"}</div>`;return;}c.innerHTML=f.map(a=>{let p=Number(ethers.formatEther(a[6])),isOwner=userAddr&&a[4]&&a[4].toLowerCase()===userAddr.toLowerCase();let approxUSD=(p*ltcPrice).toFixed(2);return`<div class="asset-card" onclick='showMarketDetail(${JSON.stringify(a)})'><div class="flex-between"><div><strong>${a[1]}</strong><span style="background:#1E1B40;padding:2px 8px;border-radius:30px;margin-left:6px;">${a[2]}</span><div style="font-size:0.68rem;">#${a[0]}</div></div><div style="text-align:right;"><div style="color:#FFD966;font-weight:800;">${p.toFixed(3)} zkLTC</div><div class="price-usd">~ $${approxUSD} USD</div><div onclick="event.stopPropagation()">${!userAddr?`<button class="btn-sm" onclick="document.getElementById('connectBtn').click()">🔌 Connect</button>`:isOwner?`<span style="font-size:0.65rem;">📌 Yours</span>`:`<button class="btn-sm" onclick="buyAsset(${a[0]},'${ethers.formatEther(a[6])}')">⚡ Buy</button>`}</div></div></div></div>`;}).join("");}
-window.showMarketDetail=(a)=>{let p=Number(ethers.formatEther(a[6])).toFixed(3),approxUSD=(p*ltcPrice).toFixed(2),isOwner=userAddr&&a[4]&&a[4].toLowerCase()===userAddr.toLowerCase(),m=document.createElement("div");m.className="modal-overlay";m.innerHTML=`<div class="modal-content"><h2>⚡ ${a[1]}</h2><div class="detail-grid"><div class="detail-item"><div class="detail-label">Asset ID</div><div class="detail-value">#${a[0]}</div></div><div class="detail-item"><div class="detail-label">Type</div><div class="detail-value">${a[2]}</div></div><div class="detail-item"><div class="detail-label">Price</div><div class="detail-value" style="color:#4ade80;">${p} zkLTC (~$${approxUSD} USD)</div></div><div class="detail-item"><div class="detail-label">Owner</div><div class="detail-value" style="font-size:0.72rem;word-break:break-all;">${a[4]}</div></div></div>${!userAddr?`<button class="btn btn-primary" style="width:100%;" onclick="this.closest('.modal-overlay').remove();document.getElementById('connectBtn').click()">Connect to Buy</button>`:isOwner?`<p style="text-align:center;">📌 Your listing</p>`:`<button class="btn btn-primary" style="width:100%;" onclick="this.closest('.modal-overlay').remove();buyAsset(${a[0]},'${ethers.formatEther(a[6])}')">Buy for ${p} zkLTC</button>`}</div>`;document.body.appendChild(m);m.addEventListener("click",e=>{if(e.target===m)m.remove();});};
+function renderMarket(){let c=document.getElementById("marketplace");let f=allListings.filter(a=>{let mF=currentFilter==="all"||a[2]===currentFilter;let searchLower=marketSearch.toLowerCase();let mS=!marketSearch||a[1].toLowerCase().includes(searchLower)||String(a[0]).includes(searchLower);return mF&&mS;});let sortVal=document.getElementById("sortSelect").value;if(sortVal==="price_asc")f.sort((a,b)=>Number(ethers.formatEther(a[6]))-Number(ethers.formatEther(b[6])));else if(sortVal==="price_desc")f.sort((a,b)=>Number(ethers.formatEther(b[6]))-Number(ethers.formatEther(a[6])));else f.sort((a,b)=>Number(a[0])-Number(b[0]));if(!f.length){c.innerHTML=`<div style="padding:32px;text-align:center;"><i class="fas fa-store" style="font-size:2rem;color:#FFB347;display:block;margin-bottom:12px;"></i>${allListings.length?"No results found":"⚡ No assets for sale yet"}</div>`;return;}c.innerHTML=f.map(a=>{let p=Number(ethers.formatEther(a[6])),isOwner=userAddr&&a[4]&&a[4].toLowerCase()===userAddr.toLowerCase();let approxUSD=(p*ltcPrice).toFixed(2);return`<div class="asset-card" onclick='showMarketDetail(${JSON.stringify(a)})'><div class="flex-between"><div><strong>${a[1].substring(0,25)}</strong><span style="background:#1E1B40;padding:2px 8px;border-radius:30px;margin-left:6px;">${a[2]}</span><div style="font-size:0.68rem;">#${a[0]}</div></div><div style="text-align:right;"><div style="color:#FFD966;font-weight:800;">${p.toFixed(3)} zkLTC</div><div class="price-usd">~ $${approxUSD} USD</div><div onclick="event.stopPropagation()">${!userAddr?`<button class="btn-sm" onclick="document.getElementById('connectBtn').click()">🔌 Connect</button>`:isOwner?`<span style="font-size:0.65rem;">📌 Your asset</span>`:`<button class="btn-sm" onclick="buyAsset(${a[0]},'${ethers.formatEther(a[6])}')">⚡ Buy</button>`}</div></div></div></div>`;}).join("");}
+window.showMarketDetail=(a)=>{let p=Number(ethers.formatEther(a[6])).toFixed(3),approxUSD=(p*ltcPrice).toFixed(2),isOwner=userAddr&&a[4]&&a[4].toLowerCase()===userAddr.toLowerCase(),m=document.createElement("div");m.className="modal-overlay";m.innerHTML=`<div class="modal-content"><h2>⚡ ${a[1]}</h2><div class="detail-grid"><div class="detail-item"><div class="detail-label">Asset ID</div><div class="detail-value">#${a[0]}</div></div><div class="detail-item"><div class="detail-label">Type</div><div class="detail-value">${a[2]}</div></div><div class="detail-item"><div class="detail-label">Price</div><div class="detail-value" style="color:#4ade80;">${p} zkLTC (~$${approxUSD} USD)</div></div></div>${!userAddr?`<button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="this.closest('.modal-overlay').remove();document.getElementById('connectBtn').click()">Connect to Buy</button>`:isOwner?`<p style="text-align:center;margin-top:16px;">📌 This is your listing</p>`:`<button class="btn btn-primary" style="width:100%;margin-top:16px;" onclick="this.closest('.modal-overlay').remove();buyAsset(${a[0]},'${ethers.formatEther(a[6])}')">Buy for ${p} zkLTC</button>`}</div>`;document.body.appendChild(m);m.addEventListener("click",e=>{if(e.target===m)m.remove();});};
 
-async function loadMarketplace(){try{let c=document.getElementById("marketplace");c.innerHTML='<div class="skeleton"></div><div class="skeleton"></div>';let r=new ethers.JsonRpcProvider(RPC);let ctr=new ethers.Contract(CONTRACT_ADDR,ABI,r);let t=Number(await ctr.totalAssets());totalAssetsCount=t;document.getElementById("statsFooter").innerHTML=`📊 Total Assets: ${t} | Listed: ${allListings.length} | Chain: LitVM`;let res=[];for(let i=1;i<=t;i++){try{let a=await ctr.assets(i);if(a[5]===true)res.push(a);}catch(e){}}allListings=res;renderMarket();}catch(e){document.getElementById("marketplace").innerHTML="<div style='padding:20px;text-align:center;color:#f87171;'>⚠️ Error loading</div>";}}
+async function loadMarketplace(){if(isLoadingMarketplace)return;isLoadingMarketplace=true;try{let c=document.getElementById("marketplace");c.innerHTML='<div class="spinner"></div>';let r=new ethers.JsonRpcProvider(RPC);let ctr=new ethers.Contract(CONTRACT_ADDR,ABI,r);let t=Number(await ctr.totalAssets());totalAssetsCount=t;let res=[];let batchSize=5;for(let i=1;i<=t;i+=batchSize){let batch=[];for(let j=i;j<Math.min(i+batchSize,t+1);j++){batch.push(ctr.assets(j));}let results=await Promise.all(batch);for(let k=0;k<results.length;k++){let a=results[k];if(a[5]===true)res.push(a);}}allListings=res;document.getElementById("statsFooter").innerHTML=`📊 Total Assets: ${t} | Listed: ${res.length} | Chain: LitVM`;document.getElementById("lastUpdate").innerHTML=`🔄 Last update: ${new Date().toLocaleTimeString()}`;renderMarket();}catch(e){console.error(e);document.getElementById("marketplace").innerHTML="<div style='padding:20px;text-align:center;color:#f87171;'>⚠️ Error loading marketplace</div>";}finally{isLoadingMarketplace=false;}}
 
-window.listAsset=async(id)=>{let price=prompt("💸 Set price (zkLTC) - min 0.01:", "0.01");if(!price)return;let p=parseFloat(price);if(isNaN(p)||p<0.01)return toast("❌ Minimum price is 0.01 zkLTC");try{let tx=await contract.listAsset(id,ethers.parseEther(price));toast(`🪄 Listing...`);await tx.wait();addPoints(5,"list");addActivity("🪄 Listed","Asset #"+id+" for "+price+" zkLTC",tx.hash);toast(`✅ Listed! <a href="${EXPLORER}${tx.hash}" target="_blank">🔗 View</a>`);loadMyAssets();loadMyListings();loadMarketplace();}catch(e){toast("❌ "+e.message.slice(0,50));}};
-window.buyAsset=async(id,priceStr)=>{if(!confirm("Buy asset #"+id+" for "+priceStr+" zkLTC?"))return;try{let tx=await contract.buyAsset(id,{value:ethers.parseEther(priceStr)});toast(`⚡ Buying...`);await tx.wait();addPoints(20,"buy");addActivity("⚡ Bought","Asset #"+id+" for "+priceStr+" zkLTC",tx.hash);toast(`🏆 Purchased! <a href="${EXPLORER}${tx.hash}" target="_blank">🔗 View</a>`);showConfetti();loadBalance();loadMarketplace();loadMyAssets();loadMyListings();}catch(e){toast("❌ "+e.message.slice(0,50));}};
+window.listAsset=async(id)=>{if(!userAddr){toast("Connect wallet first!");return;}let price=prompt("💸 Set price (zkLTC) - min 0.01:", "0.01");if(!price)return;let p=parseFloat(price);if(isNaN(p)||p<0.01)return toast("❌ Minimum price is 0.01 zkLTC");try{let tx=await contract.listAsset(id,ethers.parseEther(price));toast(`🪄 Listing...`);await tx.wait();addPoints(5,"list");addActivity("🪄 Listed","Asset #"+id+" for "+price+" zkLTC",tx.hash);toast(`✅ Listed! <a href="${EXPLORER}${tx.hash}" target="_blank">🔗 View</a>`);loadMyAssets();loadMyListings();loadMarketplace();}catch(e){toast("❌ "+e.message.slice(0,50));}};
+window.buyAsset=async(id,priceStr)=>{if(!userAddr){toast("Connect wallet first!");return;}if(!confirm("Buy asset #"+id+" for "+priceStr+" zkLTC?"))return;try{let tx=await contract.buyAsset(id,{value:ethers.parseEther(priceStr)});toast(`⚡ Buying...`);await tx.wait();addPoints(20,"buy");addActivity("⚡ Bought","Asset #"+id+" for "+priceStr+" zkLTC",tx.hash);toast(`🏆 Purchased! <a href="${EXPLORER}${tx.hash}" target="_blank">🔗 View</a>`);showConfetti();loadBalance();loadMarketplace();loadMyAssets();loadMyListings();}catch(e){toast("❌ "+e.message.slice(0,50));}};
 window.delistAsset=async(id)=>{if(!confirm("Delist this asset?"))return;try{let tx=await contract.delistAsset(id);toast(`🗑️ Delisting...`);await tx.wait();addActivity("🗑️ Delisted","Asset #"+id,tx.hash);toast(`✅ Delisted! <a href="${EXPLORER}${tx.hash}" target="_blank">🔗 View</a>`);loadMyAssets();loadMyListings();loadMarketplace();}catch(e){toast("❌ "+e.message.slice(0,50));}};
 
-document.getElementById("mintBtn").onclick=async()=>{let n=document.getElementById("assetName").value.trim(),t=document.getElementById("assetType").value,val=document.getElementById("assetValue").value.trim(),i=document.getElementById("ipfsHash").value.trim()||"";if(!n)return toast("❌ Name required");if(!val||isNaN(parseFloat(val))||parseFloat(val)<1)return toast("❌ Valuation USD must be ≥ 1");let btn=document.getElementById("mintBtn"),old=btn.innerHTML;btn.innerHTML="⏳ Minting...";btn.disabled=true;try{let usd=ethers.parseEther(val);let tx=await contract.createAsset(n,t,usd,i||"QmPlaceholder");await tx.wait();addPoints(10,"mint");addActivity("💎 Minted",t+": "+n+" ($"+val+" USD)",tx.hash);toast(`💎 ${n} minted! <a href="${EXPLORER}${tx.hash}" target="_blank">🔗 View</a>`);showConfetti();loadMyAssets();loadMarketplace();document.getElementById("assetName").value="";document.getElementById("assetValue").value="";document.getElementById("ipfsHash").value="";}catch(e){toast("❌ "+e.message.slice(0,60));}btn.innerHTML=old;btn.disabled=false;};
+document.getElementById("mintBtn").onclick=async()=>{if(!userAddr){toast("⚠️ Connect wallet first!");return;}let n=document.getElementById("assetName").value.trim(),t=document.getElementById("assetType").value,val=document.getElementById("assetValue").value.trim(),i=document.getElementById("ipfsHash").value.trim()||"";if(!n)return toast("❌ Name required");if(!val||isNaN(parseFloat(val))||parseFloat(val)<1)return toast("❌ Valuation USD must be ≥ 1");let btn=document.getElementById("mintBtn"),old=btn.innerHTML;btn.innerHTML="⏳ Minting...";btn.disabled=true;try{let usd=ethers.parseEther(val);let tx=await contract.createAsset(n,t,usd,i||"QmPlaceholder");await tx.wait();addPoints(10,"mint");addActivity("💎 Minted",t+": "+n+" ($"+val+" USD)",tx.hash);toast(`💎 ${n} minted! <a href="${EXPLORER}${tx.hash}" target="_blank">🔗 View</a>`);showConfetti();loadMyAssets();loadMarketplace();document.getElementById("assetName").value="";document.getElementById("assetValue").value="";document.getElementById("ipfsHash").value="";}catch(e){toast("❌ "+e.message.slice(0,60));}btn.innerHTML=old;btn.disabled=false;};
 
-document.getElementById("connectBtn").onclick=async()=>{if(!window.ethereum)return toast("Install MetaMask");try{await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x1159",chainName:"LitVM Testnet",nativeCurrency:{name:"zkLTC",symbol:"zkLTC",decimals:18},rpcUrls:[RPC]}]});let a=await window.ethereum.request({method:"eth_requestAccounts"});userAddr=a[0];provider=new ethers.BrowserProvider(window.ethereum);signer=await provider.getSigner();contract=new ethers.Contract(CONTRACT_ADDR,ABI,signer);let cr=await contract.creator();document.getElementById("connectBtn").style.display="none";document.getElementById("disconnectBtn").style.display="flex";document.getElementById("gasMeter").style.display="flex";document.getElementById("networkBadge").style.display="flex";if(userAddr.toLowerCase()===cr.toLowerCase())document.getElementById("creatorBadge").style.display="flex";let sa=localStorage.getItem("lwa_act_"+userAddr);if(sa){try{activityLog=JSON.parse(sa);renderActivity();}catch(e){}}loadStats();loadBalance();await loadMyAssets();loadMyListings();loadMarketplace();document.getElementById("viewToggle").style.display="flex";setInterval(loadBalance,15000);}catch(e){toast("❌ "+e.message.slice(0,60));}};
-document.getElementById("disconnectBtn").onclick=()=>{userAddr=null;document.getElementById("connectBtn").style.display="flex";document.getElementById("disconnectBtn").style.display="none";document.getElementById("gasMeter").style.display="none";document.getElementById("networkBadge").style.display="none";document.getElementById("creatorBadge").style.display="none";document.getElementById("viewToggle").style.display="none";document.getElementById("myAssets").innerHTML="<div style='padding:16px;text-align:center;'>✨ Connect wallet</div>";document.getElementById("myListings").innerHTML="<div style='padding:16px;text-align:center;'>📌 No active listings</div>";loadMarketplace();toast("Disconnected");};
+document.getElementById("connectBtn").onclick=async()=>{if(!window.ethereum){toast("Install MetaMask!");return;}let btn=document.getElementById("connectBtn");btn.innerHTML="⏳ Connecting...";btn.disabled=true;try{await window.ethereum.request({method:"wallet_addEthereumChain",params:[{chainId:"0x1159",chainName:"LitVM Testnet",nativeCurrency:{name:"zkLTC",symbol:"zkLTC",decimals:18},rpcUrls:[RPC]}]});let a=await window.ethereum.request({method:"eth_requestAccounts"});userAddr=a[0];provider=new ethers.BrowserProvider(window.ethereum);signer=await provider.getSigner();contract=new ethers.Contract(CONTRACT_ADDR,ABI,signer);let cr=await contract.creator();btn.style.display="none";document.getElementById("disconnectBtn").style.display="flex";document.getElementById("gasMeter").style.display="flex";document.getElementById("networkBadge").style.display="flex";document.getElementById("mintBtn").disabled=false;document.getElementById("mintBtn").innerHTML='<i class="fas fa-star"></i> Mint Asset (+10 pts)';if(userAddr.toLowerCase()===cr.toLowerCase())document.getElementById("creatorBadge").style.display="flex";let sa=localStorage.getItem("lwa_act_"+userAddr);if(sa){try{activityLog=JSON.parse(sa);renderActivity();}catch(e){}}loadStats();loadBalance();await loadMyAssets();await loadMyListings();loadMarketplace();toast(`✅ Connected: ${userAddr.slice(0,6)}...${userAddr.slice(-4)}`);}catch(e){toast("❌ Connection failed: "+e.message.slice(0,50));btn.style.display="flex";btn.innerHTML='<i class="fas fa-plug"></i> Connect Wallet';btn.disabled=false;}};
+document.getElementById("disconnectBtn").onclick=()=>{userAddr=null;provider=null;signer=null;contract=null;document.getElementById("connectBtn").style.display="flex";document.getElementById("connectBtn").disabled=false;document.getElementById("connectBtn").innerHTML='<i class="fas fa-plug"></i> Connect Wallet';document.getElementById("disconnectBtn").style.display="none";document.getElementById("gasMeter").style.display="none";document.getElementById("networkBadge").style.display="none";document.getElementById("creatorBadge").style.display="none";document.getElementById("mintBtn").disabled=true;document.getElementById("mintBtn").innerHTML='<i class="fas fa-star"></i> Connect Wallet to Mint';document.getElementById("myAssets").innerHTML='<div class="connect-prompt" onclick="document.getElementById(\'connectBtn\').click()">🔌 Click here to connect wallet</div>';document.getElementById("myListings").innerHTML='<div class="connect-prompt" onclick="document.getElementById(\'connectBtn\').click()">🔌 Connect wallet to see your listings</div>';document.getElementById("activityList").innerHTML='<div class="connect-prompt" onclick="document.getElementById(\'connectBtn\').click()">🔌 Connect wallet to see activity</div>';loadMarketplace();toast("Disconnected");};
 
 document.getElementById("assetsTab").onclick=()=>{document.getElementById("assetsPanel").style.display="block";document.getElementById("myListingsPanel").style.display="none";document.getElementById("activityPanel").style.display="none";document.getElementById("assetsTab").classList.add("active");document.getElementById("listingsTab").classList.remove("active");document.getElementById("activityTab").classList.remove("active");};
 document.getElementById("listingsTab").onclick=()=>{document.getElementById("assetsPanel").style.display="none";document.getElementById("myListingsPanel").style.display="block";document.getElementById("activityPanel").style.display="none";document.getElementById("listingsTab").classList.add("active");document.getElementById("assetsTab").classList.remove("active");document.getElementById("activityTab").classList.remove("active");if(userAddr)loadMyListings();};
@@ -265,29 +241,18 @@ document.getElementById("marketSearch").oninput=(e)=>{marketSearch=e.target.valu
 document.getElementById("sortSelect").onchange=()=>{renderMarket();};
 document.querySelectorAll(".filter-btn").forEach(btn=>{btn.onclick=()=>{document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");currentFilter=btn.getAttribute("data-filter");renderMarket();};});
 
-document.querySelectorAll(".view-btn").forEach(btn=>{btn.onclick=function(){document.querySelectorAll(".view-btn").forEach(b=>b.classList.remove("active"));this.classList.add("active");currentView=this.getAttribute("data-view");let list=document.getElementById("myAssets");if(currentView==="grid")list.classList.add("grid-view");else list.classList.remove("grid-view");};});
-
 function showTutorial(){
     let modal = document.createElement("div");
     modal.className = "modal-overlay";
     modal.innerHTML = `
         <div class="modal-content">
-            <h2 style="margin-bottom:20px;">📖 Complete Tutorial</h2>
+            <h2 style="margin-bottom:20px;">📖 How to Use LiteRWA</h2>
             <div class="step"><div class="step-num">1</div><div><strong>Connect Wallet</strong><br>Click "Connect Wallet" → Approve LitVM network (Chain ID: 4441)</div></div>
             <div class="step"><div class="step-num">2</div><div><strong>Get Gas (zkLTC)</strong><br>Click faucet link → Paste address → Request 0.2 zkLTC</div></div>
-            <div class="step"><div class="step-num">3</div><div><strong>🎨 Mint Asset</strong><br>
-                <table class="example-table">
-                    <tr><th>Category</th><th>Asset Name Example</th><th>Valuation USD</th></tr>
-                    <tr><td>🥇 Gold</td><td>"1kg Gold Bar"</td><td>2500</td></tr>
-                    <tr><td>🥈 Silver</td><td>"500g Silver Bar"</td><td>450</td></tr>
-                    <tr><td>🛢️ Oil</td><td>"WTI Crude Barrel"</td><td>72</td></tr>
-                    <tr><td>🏠 Real Estate</td><td>"Apartment Unit 5B"</td><td>250000</td></tr>
-                </table>
-                <strong>📌 Valuation USD must be ≥ 1</strong>
-            </div></div>
+            <div class="step"><div class="step-num">3</div><div><strong>Mint Asset</strong><br>Enter name (e.g., "1kg Gold Bar") → Select category → Set USD value (min $1)</div></div>
             <div class="step"><div class="step-num">4</div><div><strong>List for Sale</strong><br>Go to "My Assets" → Click "List" → Set price (min 0.01 zkLTC)</div></div>
-            <div class="step"><div class="step-num">5</div><div><strong>Buy Assets</strong><br>Go to "Marketplace" → Click "Buy" → Confirm transaction</div></div>
-            <div class="step"><div class="step-num">🎁</div><div><strong>Points System</strong><br>Mint: +10 | List: +5 | Buy: +20 | Daily Check-in: +5~100 | All Challenges: +30 bonus</div></div>
+            <div class="step"><div class="step-num">5</div><div><strong>Buy Assets</strong><br>Go to "Marketplace" → Click "Buy" on any asset → Confirm</div></div>
+            <div class="step"><div class="step-num">🎁</div><div><strong>Points</strong><br>Mint: +10 | List: +5 | Buy: +20 | Daily Check-in: +5~100</div></div>
             <button onclick="this.closest('.modal-overlay').remove()" class="btn btn-primary" style="width:100%;margin-top:20px;">Start Trading!</button>
         </div>
     `;
@@ -295,11 +260,12 @@ function showTutorial(){
     modal.addEventListener("click", e => { if(e.target === modal) modal.remove(); });
 }
 document.getElementById("tutorialBtn").onclick = showTutorial;
-if(!localStorage.getItem("tutorial_seen_v10")) { setTimeout(showTutorial, 1500); localStorage.setItem("tutorial_seen_v10", "1"); }
+if(!localStorage.getItem("tutorial_seen_v11")) { setTimeout(showTutorial, 2000); localStorage.setItem("tutorial_seen_v11", "1"); }
 
-loadStats();loadMarketplace();fetchPrices();
-setInterval(fetchPrices,30000);
-setInterval(loadMarketplace,20000);
+loadMarketplace();
+fetchPrices();
+setInterval(fetchPrices,60000);
+setInterval(()=>{if(!isLoadingMarketplace)loadMarketplace();},30000);
 </script>
 </body>
 </html>
